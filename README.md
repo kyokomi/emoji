@@ -17,3 +17,6 @@ func main() {
 
 ![](https://raw.githubusercontent.com/kyokomi/emoji/master/screen/image.png)
 
+## Reference ##
+
+- [GitHub EMOJI CHEAT SHEET](http://www.emoji-cheat-sheet.com/)
