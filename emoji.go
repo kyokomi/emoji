@@ -13,27 +13,27 @@ import (
 )
 
 const (
-    EscapeChar = '@'       // Escape character for emoji syntax
-	ReplacePadding = " "
+    EscapeChar     = '@' // Escape character for emoji syntax
+    ReplacePadding = " "
 )
 
 // Mapping from character to concrete escape code.
 var CodeMap = map[string]string{
     ":beer:": "\xF0\x9f\x8d\xba",
-	":pizza:": "\xF0\x9F\x8D\x95",
-	":custard:": "\xF0\x9F\x8D\xAE",
+    ":pizza:": "\xF0\x9F\x8D\x95",
+    ":custard:": "\xF0\x9F\x8D\xAE",
 }
 
 func Emojize(x string) string {
     result := x
 
-	str, ok := CodeMap[string(x)]
-	switch {
-	case !ok:
-		log.Printf("Wrong emoji syntax: %c", x)
-	default:
-		result = str + ReplacePadding
-	}
+    str, ok := CodeMap[string(x)]
+    switch {
+    case !ok:
+        log.Printf("Wrong emoji syntax: %c", x)
+    default:
+        result = str+ReplacePadding
+    }
     return result
 }
 
@@ -60,7 +60,7 @@ func compileEmojiSyntax(input, output *bytes.Buffer) {
             if i == '}' {
                 break
             }
-			emoji.WriteRune(i)
+            emoji.WriteRune(i)
         }
         output.WriteString(Emojize(emoji.String()))
     }
