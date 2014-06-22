@@ -18,14 +18,16 @@ const (
 )
 
 // Mapping from character to concrete escape code.
-var codeMap = map[string]string{
+var CodeMap = map[string]string{
     ":beer:": "\xF0\x9f\x8d\xba",
+	":pizza:": "\xF0\x9F\x8D\x95",
+	":custard:": "\xF0\x9F\x8D\xAE",
 }
 
 func Emojize(x string) string {
     result := x
 
-	str, ok := codeMap[string(x)]
+	str, ok := CodeMap[string(x)]
 	switch {
 	case !ok:
 		log.Printf("Wrong emoji syntax: %c", x)
