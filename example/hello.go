@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/kyokomi/emoji"
-)
+	"github.com/kyokomi/emoji")
 
 func main() {
 	fmt.Println("Hello Wolrd Emoji!")
@@ -13,7 +12,7 @@ func main() {
 	pizzaMessage := emoji.Sprint("I like @{:pizza:}!!")
 	fmt.Println(pizzaMessage)
 
-	dessert := emoji.Sprintf("%s @{:custard:}.", "This is")
+	dessert := emoji.Sprintf("%s @{:custard:} @{:womens:}.", "This is")
 	fmt.Println(dessert)
 }
 
