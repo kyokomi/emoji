@@ -1,6 +1,8 @@
 ## Emoji ##
 Emoji is a simple golang package.
 
+[![Build Status](https://drone.io/github.com/kyokomi/emoji/status.png)](https://drone.io/github.com/kyokomi/emoji/latest)
+
 ## Usage ##
 
 ```go
