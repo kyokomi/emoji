@@ -18,7 +18,7 @@ const (
 )
 
 // Mapping from character to concrete escape code.
-var CodeMap = map[string]string{
+var emojiCodeMap = map[string]string{
 	":capricorn:": "\U00002651",
 	":end:": "\U0001f51a",
 	":no_mobile_phones:": "\U0001f4f5",
@@ -891,10 +891,10 @@ var CodeMap = map[string]string{
 	":pill:": "\U0001f48a",
 }
 
-func Emojize(x string) string {
+func emojize(x string) string {
     result := x
 
-    str, ok := CodeMap[string(x)]
+    str, ok := emojiCodeMap[string(x)]
     switch {
     case !ok:
         log.Printf("Wrong emoji syntax: %c", x)
@@ -929,7 +929,7 @@ func compileEmojiSyntax(input, output *bytes.Buffer) {
             }
             emoji.WriteRune(i)
         }
-        output.WriteString(Emojize(emoji.String()))
+        output.WriteString(emojize(emoji.String()))
     }
 }
 
@@ -964,46 +964,55 @@ func compileValues(a *[]interface{}) {
     }
 }
 
+// Print is fmt.Print which supports emoji
 func Print(a ...interface{}) (int, error) {
     compileValues(&a)
     return fmt.Print(a...)
 }
 
+// Println is fmt.Println which supports emoji
 func Println(a ...interface{}) (int, error) {
     compileValues(&a)
     return fmt.Println(a...)
 }
 
+// Printf is fmt.Printf which supports emoji
 func Printf(format string, a ...interface{}) (int, error) {
     format = compile(format)
     return fmt.Printf(format, a...)
 }
 
+// Fprint is fmt.Fprint which supports emoji
 func Fprint(w io.Writer, a ...interface{}) (int, error) {
     compileValues(&a)
     return fmt.Fprint(w, a...)
 }
 
+// Fprintln is fmt.Fprintln which supports emoji
 func Fprintln(w io.Writer, a ...interface{}) (int, error) {
     compileValues(&a)
     return fmt.Fprintln(w, a...)
 }
 
+// Fprintf is fmt.Fprintf which supports emoji
 func Fprintf(w io.Writer, format string, a ...interface{}) (int, error) {
     format = compile(format)
     return fmt.Fprintf(w, format, a...)
 }
 
+// Sprint is fmt.Sprint which supports emoji
 func Sprint(a ...interface{}) string {
     compileValues(&a)
     return fmt.Sprint(a...)
 }
 
+// Sprintf is fmt.Sprintf which supports emoji
 func Sprintf(format string, a ...interface{}) string {
     format = compile(format)
     return fmt.Sprintf(format, a...)
 }
 
+// Errorf is fmt.Errorf which supports emoji
 func Errorf(format string, a ...interface{}) error {
     return errors.New(Sprintf(format, a...))
 }

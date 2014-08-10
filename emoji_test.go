@@ -9,8 +9,8 @@ const (
 	beerKey  = ":beer:"
 	beerText = " ビール!!!"
 )
-var testFText = "test "+ CodeMap[beerKey] + ReplacePadding + beerText
-var testText  = CodeMap[beerKey] + ReplacePadding + beerText
+var testFText = "test "+ emojiCodeMap[beerKey] + ReplacePadding + beerText
+var testText  = emojiCodeMap[beerKey] + ReplacePadding + beerText
 
 func createKeyStr(key string) string {
 	return  string(EscapeChar) + "{" + key + "}"
