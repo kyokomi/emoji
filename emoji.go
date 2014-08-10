@@ -1,7 +1,4 @@
-// emoji.go
-//
-//      emoji.Println("@{:beer:}Example Text")
-//
+// Package emoji terminal output.
 package emoji
 
 import (
@@ -12,8 +9,9 @@ import (
     "log"
 )
 
+// Escape character for emoji syntax.
 const (
-    EscapeChar     = '@' // Escape character for emoji syntax
+    EscapeChar     = '@'
     ReplacePadding = " "
 )
 

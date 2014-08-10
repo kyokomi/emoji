@@ -3,6 +3,7 @@ Emoji is a simple golang package.
 
 [![Build Status](https://drone.io/github.com/kyokomi/emoji/status.png)](https://drone.io/github.com/kyokomi/emoji/latest)
 [![Coverage Status](https://coveralls.io/repos/kyokomi/emoji/badge.png?branch=master)](https://coveralls.io/r/kyokomi/emoji?branch=master)
+[![GoDoc](https://godoc.org/github.com/kyokomi/emoji?status.svg)](https://godoc.org/github.com/kyokomi/emoji)
 
 ## Usage ##
 
