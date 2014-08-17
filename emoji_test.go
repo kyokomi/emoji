@@ -91,3 +91,11 @@ func TestErrorf(t *testing.T) {
 		t.Error("Errorf ", error, testFText)
 	}
 }
+
+func TestSprintMulti(t *testing.T) {
+	convertBeer := Sprint(beerKey, beerText, beerKey, beerText)
+	if convertBeer != (testText + testText) {
+		t.Error("Sprint ", convertBeer, testText)
+	}
+	fmt.Println(convertBeer)
+}
