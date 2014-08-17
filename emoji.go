@@ -901,6 +901,26 @@ func emojize(x string) string {
 	return result
 }
 
+func replaseEmoji(input *bytes.Buffer) string {
+	r := ""
+	emoji := bytes.NewBufferString(":")
+	for {
+		i, _, err := input.ReadRune()
+		if err != nil {
+			// not replase
+			r = emoji.String()
+			break
+		}
+		emoji.WriteRune(i)
+
+		if i == ':' {
+			r = emojize(emoji.String())
+			break
+		}
+	}
+	return r
+}
+
 func compile(x string) string {
 	if x == "" {
 		return ""
@@ -918,20 +938,7 @@ func compile(x string) string {
 		default:
 			output.WriteRune(i)
 		case ':':
-			emoji := bytes.NewBufferString(":")
-			for {
-				i, _, err := input.ReadRune()
-				if err != nil {
-					log.Print("Parse failed on emoji syntax")
-					break
-				}
-				emoji.WriteRune(i)
-
-				if i == ':' {
-					break
-				}
-			}
-			output.WriteString(emojize(emoji.String()))
+			output.WriteString(replaseEmoji(input))
 		}
 	}
 	return output.String()
