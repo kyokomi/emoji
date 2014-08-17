@@ -9,10 +9,9 @@ import (
     "log"
 )
 
-// Escape character for emoji syntax.
+// Replace Padding character for emoji.
 const (
-    EscapeChar     = '@'
-    ReplacePadding = " "
+	ReplacePadding = " "
 )
 
 // Mapping from character to concrete escape code.
@@ -892,43 +891,14 @@ var emojiCodeMap = map[string]string{
 func emojize(x string) string {
     result := x
 
-    str, ok := emojiCodeMap[string(x)]
-    switch {
-    case !ok:
-        log.Printf("Wrong emoji syntax: %c", x)
-    default:
-        result = str+ReplacePadding
-    }
-    return result
-}
-
-// Handle state after meeting one '@'
-func compileEmojiSyntax(input, output *bytes.Buffer) {
-    i, _, err := input.ReadRune()
-    if err != nil {
-        // EOF got
-        log.Print("Parse failed on emoji syntax")
-        return
-    }
-
-    switch i {
-    default:
-        output.WriteString(string(i))
-    case '{':
-        emoji := bytes.NewBufferString("")
-        for {
-            i, _, err := input.ReadRune()
-            if err != nil {
-                log.Print("Parse failed on emoji syntax")
-                break
-            }
-            if i == '}' {
-                break
-            }
-            emoji.WriteRune(i)
-        }
-        output.WriteString(emojize(emoji.String()))
-    }
+	str, ok := emojiCodeMap[string(x)]
+	switch {
+	case !ok:
+		log.Printf("Wrong emoji syntax: %c", x)
+	default:
+		result = str + ReplacePadding
+	}
+	return result
 }
 
 func compile(x string) string {
@@ -939,19 +909,32 @@ func compile(x string) string {
     input := bytes.NewBufferString(x)
     output := bytes.NewBufferString("")
 
-    for {
-        i, _, err := input.ReadRune()
-        if err != nil {
-            break
-        }
-        switch i {
-        default:
-            output.WriteRune(i)
-        case EscapeChar:
-            compileEmojiSyntax(input, output)
-        }
-    }
-    return output.String()
+	for {
+		i, _, err := input.ReadRune()
+		if err != nil {
+			break
+		}
+		switch i {
+		default:
+			output.WriteRune(i)
+		case ':':
+			emoji := bytes.NewBufferString(":")
+			for {
+				i, _, err := input.ReadRune()
+				if err != nil {
+					log.Print("Parse failed on emoji syntax")
+					break
+				}
+				emoji.WriteRune(i)
+
+				if i == ':' {
+					break
+				}
+			}
+			output.WriteString(emojize(emoji.String()))
+		}
+	}
+	return output.String()
 }
 
 func compileValues(a *[]interface{}) {

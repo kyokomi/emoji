@@ -1,37 +1,35 @@
 package emoji
 
 import (
-	"testing"
 	"bytes"
+	"testing"
+	"fmt"
 )
 
 const (
 	beerKey  = ":beer:"
 	beerText = " ビール!!!"
 )
-var testFText = "test "+ emojiCodeMap[beerKey] + ReplacePadding + beerText
-var testText  = emojiCodeMap[beerKey] + ReplacePadding + beerText
 
-func createKeyStr(key string) string {
-	return  string(EscapeChar) + "{" + key + "}"
-}
+var testFText = "test " + emojiCodeMap[beerKey] + ReplacePadding + beerText
+var testText = emojiCodeMap[beerKey] + ReplacePadding + beerText
 
 func TestPrint(t *testing.T) {
-	_, err := Print(createKeyStr(beerKey), beerText)
+	_, err := Print(beerKey, beerText)
 	if err != nil {
 		t.Error("Print ", err)
 	}
 }
 
 func TestPrintln(t *testing.T) {
-	_, err := Println(createKeyStr(beerKey), beerText)
+	_, err := Println(beerKey, beerText)
 	if err != nil {
 		t.Error("Println ", err)
 	}
 }
 
 func TestPrintf(t *testing.T) {
-	_, err := Printf("%s " + createKeyStr(beerKey) + beerText, "test")
+	_, err := Printf("%s "+beerKey+beerText, "test")
 	if err != nil {
 		t.Error("Printf ", err)
 	}
@@ -39,7 +37,7 @@ func TestPrintf(t *testing.T) {
 
 func TestFprint(t *testing.T) {
 	var buf bytes.Buffer
-	_, err := Fprint(&buf, createKeyStr(beerKey) + beerText)
+	_, err := Fprint(&buf, beerKey+beerText)
 	if err != nil {
 		t.Error("Fprint ", err)
 	}
@@ -51,7 +49,7 @@ func TestFprint(t *testing.T) {
 
 func TestFprintln(t *testing.T) {
 	var buf bytes.Buffer
-	_, err := Fprintln(&buf, createKeyStr(beerKey) + beerText)
+	_, err := Fprintln(&buf, beerKey+beerText)
 	if err != nil {
 		t.Error("Fprintln ", err)
 	}
@@ -63,7 +61,7 @@ func TestFprintln(t *testing.T) {
 
 func TestFprintf(t *testing.T) {
 	var buf bytes.Buffer
-	_, err := Fprintf(&buf, "%s " + createKeyStr(beerKey) + beerText, "test")
+	_, err := Fprintf(&buf, "%s "+beerKey+beerText, "test")
 	if err != nil {
 		t.Error("Fprintf ", err)
 	}
@@ -74,21 +72,21 @@ func TestFprintf(t *testing.T) {
 }
 
 func TestSprint(t *testing.T) {
-	convertBeer := Sprint(createKeyStr(beerKey), beerText)
+	convertBeer := Sprint(beerKey, beerText)
 	if convertBeer != testText {
 		t.Error("Sprint ", convertBeer, testText)
 	}
 }
 
 func TestSprintf(t *testing.T) {
-	convertBeer := Sprintf("%s " + createKeyStr(beerKey) + beerText, "test")
+	convertBeer := Sprintf("%s "+beerKey+beerText, "test")
 	if convertBeer != testFText {
 		t.Error("Sprintf ", convertBeer, testFText)
 	}
 }
 
 func TestErrorf(t *testing.T) {
-	error := Errorf("%s " + createKeyStr(beerKey) + beerText, "test")
+	error := Errorf("%s "+beerKey+beerText, "test")
 	if error.Error() != testFText {
 		t.Error("Errorf ", error, testFText)
 	}
