@@ -34,6 +34,6 @@ func main() {
 
 - [GitHub EMOJI CHEAT SHEET](http://www.emoji-cheat-sheet.com/)
 
-## Licence
+## License
 
 [MIT](https://github.com/kyokomi/emoji/blob/master/LICENSE)
