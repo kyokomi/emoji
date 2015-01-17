@@ -2,8 +2,8 @@ package emoji
 
 import (
 	"bytes"
-	"testing"
 	"fmt"
+	"testing"
 )
 
 const (
