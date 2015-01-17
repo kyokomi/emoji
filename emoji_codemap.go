@@ -1,5 +1,9 @@
 package emoji
 
+// NOTE: THIS FILE WAS PRODUCED BY THE
+// EMOJICODEMAP CODE GENERATION TOOL (github.com/kyokomi/generateEmojiCodeMap)
+// DO NOT EDIT
+
 // Mapping from character to concrete escape code.
 var emojiCodeMap = map[string]string{
 	":+1:":                              "\U0001f44d",
