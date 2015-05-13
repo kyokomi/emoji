@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 )
 
 //go:generate generateEmojiCodeMap -pkg emoji
@@ -20,10 +19,7 @@ func emojize(x string) string {
 	result := x
 
 	str, ok := emojiCodeMap[string(x)]
-	switch {
-	case !ok:
-		log.Printf("Wrong emoji syntax: %c", x)
-	default:
+	if ok {
 		result = str + ReplacePadding
 	}
 	return result
