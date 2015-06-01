@@ -14,6 +14,13 @@ const (
 var testFText = "test " + emojiCodeMap[beerKey] + ReplacePadding + beerText
 var testText = emojiCodeMap[beerKey] + ReplacePadding + beerText
 
+func TestCodeMap(t *testing.T) {
+	m := CodeMap()
+	if &emojiCodeMap == &m {
+		t.Error("emojiCodeMap != EmojiCodeMap")
+	}
+}
+
 func TestPrint(t *testing.T) {
 	_, err := Print(beerKey, beerText)
 	if err != nil {

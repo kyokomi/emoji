@@ -15,6 +15,11 @@ const (
 	ReplacePadding = " "
 )
 
+// CodeMap gets the underlying map of emoji.
+func CodeMap() map[string]string {
+	return emojiCodeMap
+}
+
 func emojize(x string) string {
 	result := x
 
