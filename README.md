@@ -5,6 +5,20 @@ Emoji is a simple golang package.
 [![Coverage Status](https://coveralls.io/repos/kyokomi/emoji/badge.png?branch=master)](https://coveralls.io/r/kyokomi/emoji?branch=master)
 [![GoDoc](https://godoc.org/github.com/kyokomi/emoji?status.svg)](https://godoc.org/github.com/kyokomi/emoji)
 
+Get it:
+
+```
+go get gopkg.in/kyokomi/emoji.v1
+```
+
+Import it:
+
+```
+import (
+	"gopkg.in/kyokomi/emoji.v1"
+)
+```
+
 ## Usage
 
 ```go
