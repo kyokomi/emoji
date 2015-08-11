@@ -21,13 +21,11 @@ func CodeMap() map[string]string {
 }
 
 func emojize(x string) string {
-	result := x
-
-	str, ok := emojiCodeMap[string(x)]
+	str, ok := emojiCodeMap[x]
 	if ok {
-		result = str + ReplacePadding
+		return str + ReplacePadding
 	}
-	return result
+	return x
 }
 
 func replaseEmoji(input *bytes.Buffer) string {
