@@ -618,6 +618,7 @@ var emojiCodeMap = map[string]string{
 	":pouch:":                          "\U0001f45d",
 	":poultry_leg:":                    "\U0001f357",
 	":pound:":                          "\U0001f4b7",
+	":pout:":                           "\U0001f621",
 	":pouting_cat:":                    "\U0001f63e",
 	":pray:":                           "\U0001f64f",
 	":princess:":                       "\U0001f478",
