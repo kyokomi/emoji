@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"unicode"
 )
 
 //go:generate generateEmojiCodeMap -pkg emoji
@@ -38,7 +39,13 @@ func replaseEmoji(input *bytes.Buffer) string {
 			r = emoji.String()
 			break
 		}
+
 		emoji.WriteRune(i)
+
+		if unicode.IsSpace(i) {
+			r = emoji.String()
+			break
+		}
 
 		if i == ':' {
 			r = emojize(emoji.String())

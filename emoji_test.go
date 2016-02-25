@@ -11,8 +11,21 @@ const (
 	beerText = " ビール!!!"
 )
 
-var testFText = "test " + emojiCodeMap[beerKey] + ReplacePadding + beerText
-var testText = emojiCodeMap[beerKey] + ReplacePadding + beerText
+var testFText = "test " + emojize(beerKey) + beerText
+var testText = emojize(beerKey) + beerText
+
+func TestMultiColons(t *testing.T) {
+	var buf bytes.Buffer
+	_, err := Fprint(&buf, "A :smile: and another: :smile:")
+	if err != nil {
+		t.Error("Fprint ", err)
+	}
+
+	testCase := "A " + emojize(":smile:") + " and another: " + emojize(":smile:")
+	if buf.String() != testCase {
+		t.Error("Fprint ", buf.String(), "!=", testCase)
+	}
+}
 
 func TestCodeMap(t *testing.T) {
 	m := CodeMap()
