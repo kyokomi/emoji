@@ -27,6 +27,19 @@ func TestMultiColons(t *testing.T) {
 	}
 }
 
+func TestContinuityColons(t *testing.T) {
+	var buf bytes.Buffer
+	_, err := Fprint(&buf, "::smile:")
+	if err != nil {
+		t.Error("Fprint ", err)
+	}
+
+	testCase := ":" + emojize(":smile:")
+	if buf.String() != testCase {
+		t.Error("Fprint ", buf.String(), "!=", testCase)
+	}
+}
+
 func TestCodeMap(t *testing.T) {
 	m := CodeMap()
 	if &emojiCodeMap == &m {
