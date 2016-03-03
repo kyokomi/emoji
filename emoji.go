@@ -30,29 +30,26 @@ func emojize(x string) string {
 }
 
 func replaseEmoji(input *bytes.Buffer) string {
-	r := ""
 	emoji := bytes.NewBufferString(":")
 	for {
 		i, _, err := input.ReadRune()
 		if err != nil {
 			// not replase
-			r = emoji.String()
-			break
+			return emoji.String()
+		}
+
+		if i == ':' && emoji.Len() == 1 {
+			return emoji.String() + replaseEmoji(input)
 		}
 
 		emoji.WriteRune(i)
-
-		if unicode.IsSpace(i) {
-			r = emoji.String()
-			break
-		}
-
-		if i == ':' {
-			r = emojize(emoji.String())
-			break
+		switch {
+		case unicode.IsSpace(i):
+			return emoji.String()
+		case i == ':':
+			return emojize(emoji.String())
 		}
 	}
-	return r
 }
 
 func compile(x string) string {
