@@ -31,7 +31,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello Wolrd Emoji!")
+	fmt.Println("Hello World Emoji!")
 
 	emoji.Println(":beer: Beer!!!")
 
@@ -42,7 +42,7 @@ func main() {
 
 ## Demo
 
-![](https://raw.githubusercontent.com/kyokomi/emoji/master/screen/image.png)
+![demo](screen/image.png)
 
 ## Reference
 
