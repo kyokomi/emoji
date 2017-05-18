@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"regexp"
 	"unicode"
 )
 
@@ -21,12 +22,23 @@ func CodeMap() map[string]string {
 	return emojiCodeMap
 }
 
+// regular expression that matches :flag-[countrycode]:
+var flagRegexp = regexp.MustCompile(":flag-([a-z]{2}):")
+
 func emojize(x string) string {
 	str, ok := emojiCodeMap[x]
 	if ok {
 		return str + ReplacePadding
 	}
+	if match := flagRegexp.FindStringSubmatch(x); len(match) == 2 {
+		return regionalIndicator(match[1][0]) + regionalIndicator(match[1][1])
+	}
 	return x
+}
+
+// regionalIndicator maps a lowercase letter to a unicode regional indicator
+func regionalIndicator(i byte) string {
+	return string('\U0001F1E6' + rune(i) - 'a')
 }
 
 func replaseEmoji(input *bytes.Buffer) string {
