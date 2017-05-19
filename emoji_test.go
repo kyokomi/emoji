@@ -9,10 +9,19 @@ import (
 const (
 	beerKey  = ":beer:"
 	beerText = " ビール!!!"
+	flag     = ":flag-us:"
 )
 
 var testFText = "test " + emojize(beerKey) + beerText
 var testText = emojize(beerKey) + beerText
+
+func TestFlag(t *testing.T) {
+	f := emojize(flag)
+	expected := "\U0001f1fA\U0001f1f8"
+	if f != expected {
+		t.Error("emojize ", f, "!=", expected)
+	}
+}
 
 func TestMultiColons(t *testing.T) {
 	var buf bytes.Buffer
