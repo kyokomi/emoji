@@ -1117,6 +1117,7 @@ var emojiCodeMap = map[string]string{
 	":right_anger_bubble:":                   "\U0001f5ef",
 	":ring:":                                 "\U0001f48d",
 	":robot:":                                "\U0001f916",
+	":robot_face:":                           "\U0001f916",
 	":rocket:":                               "\U0001f680",
 	":rofl:":                                 "\U0001f923",
 	":roll_eyes:":                            "\U0001f644",
