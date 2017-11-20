@@ -1147,6 +1147,8 @@ var emojiCodeMap = map[string]string{
 	":sandal:":                               "\U0001f461",
 	":santa:":                                "\U0001f385",
 	":sao_tome_principe:":                    "\U0001f1f8\U0001f1f9",
+	":sassy_man:":                            "\U0001f481\u200d\u2642",
+	":sassy_woman:":                          "\U0001f481",
 	":satellite:":                            "\U0001f4e1",
 	":satisfied:":                            "\U0001f606",
 	":saudi_arabia:":                         "\U0001f1f8\U0001f1e6",
