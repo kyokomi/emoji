@@ -110,6 +110,7 @@ func Println(a ...interface{}) (int, error) {
 // Printf is fmt.Printf which supports emoji
 func Printf(format string, a ...interface{}) (int, error) {
 	format = compile(format)
+	compileValues(&a)
 	return fmt.Printf(format, a...)
 }
 
@@ -128,6 +129,7 @@ func Fprintln(w io.Writer, a ...interface{}) (int, error) {
 // Fprintf is fmt.Fprintf which supports emoji
 func Fprintf(w io.Writer, format string, a ...interface{}) (int, error) {
 	format = compile(format)
+	compileValues(&a)
 	return fmt.Fprintf(w, format, a...)
 }
 
@@ -140,10 +142,12 @@ func Sprint(a ...interface{}) string {
 // Sprintf is fmt.Sprintf which supports emoji
 func Sprintf(format string, a ...interface{}) string {
 	format = compile(format)
+	compileValues(&a)
 	return fmt.Sprintf(format, a...)
 }
 
 // Errorf is fmt.Errorf which supports emoji
 func Errorf(format string, a ...interface{}) error {
+	compileValues(&a)
 	return errors.New(Sprintf(format, a...))
 }
