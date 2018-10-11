@@ -1428,6 +1428,7 @@ var emojiCodeMap = map[string]string{
 	":virgo:":                     "\u264d\ufe0f",
 	":volcano:":                   "\U0001f30b",
 	":volleyball:":                "\U0001f3d0",
+	":vomit:":                     "\U0001f92e",
 	":vs:":                        "\U0001f19a",
 	":vulcan_salute:":             "\U0001f596",
 	":walking:":                   "\U0001f6b6",
