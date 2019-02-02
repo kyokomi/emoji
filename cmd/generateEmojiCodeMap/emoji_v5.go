@@ -42,10 +42,11 @@ func createEmojoCodeMap() (map[string]string, error) {
 	emojiCodeMap := make(map[string]string)
 	for _, gemoji := range gs {
 		shortCode := strings.Replace(gemoji.Shortcode, ":", "", 2)
-		if len(shortCode) == 0 {
+		if len(shortCode) == 0 || len(gemoji.Emoji) == 0 {
 			continue
 		}
-		emojiCodeMap[shortCode] = fmt.Sprintf("%+q", gemoji.Emoji)
+		code := gemoji.Emoji
+		emojiCodeMap[shortCode] = fmt.Sprintf("%+q", strings.ToLower(code))
 	}
 
 	return emojiCodeMap, nil

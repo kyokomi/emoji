@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 const gemojiDBJsonURL = "https://raw.githubusercontent.com/github/gemoji/master/db/emoji.json"
@@ -37,7 +38,11 @@ func createGemojiCodeMap() (map[string]string, error) {
 	emojiCodeMap := make(map[string]string)
 	for _, gemoji := range gs {
 		for _, a := range gemoji.Aliases {
-			emojiCodeMap[a] = fmt.Sprintf("%+q", gemoji.Emoji)
+			if len(a) == 0 || len(gemoji.Emoji) == 0 {
+				continue
+			}
+			code := gemoji.Emoji
+			emojiCodeMap[a] = fmt.Sprintf("%+q", strings.ToLower(code))
 		}
 	}
 
