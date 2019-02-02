@@ -55,6 +55,14 @@ func createCodeMap() (map[string]string, error) {
 		gemojiCodeMap[k] = v
 	}
 
+	unicodeorgCodeMap, err := createUnicodeorgMap()
+	if err != nil {
+		return nil, err
+	}
+	for k, v := range unicodeorgCodeMap {
+		gemojiCodeMap[k] = v
+	}
+
 	return gemojiCodeMap, nil
 }
 
