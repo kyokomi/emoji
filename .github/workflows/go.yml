@@ -20,6 +20,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - uses: actions-contrib/golangci-lint@v1
+        with:
+          working-directory: go/src/github.com/kyokomi/emoji
       - run: go test ./...
 
 
