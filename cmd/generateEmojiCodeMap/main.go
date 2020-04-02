@@ -7,6 +7,7 @@ import (
 	"go/format"
 	"log"
 	"os"
+	"sort"
 	"text/template"
 )
 
@@ -23,8 +24,9 @@ func init() {
 
 // TemplateData emoji_codemap.go template
 type TemplateData struct {
-	PkgName string
-	CodeMap map[string]string
+	PkgName    string
+	CodeMap    map[string]string
+	RevCodeMap map[string][]string
 }
 
 const templateMapCode = `
@@ -39,51 +41,72 @@ var emojiCodeMap = map[string]string{
 	{{range $key, $val := .CodeMap}}":{{$key}}:": {{$val}},
 {{end}}
 }
+
+var emojiRevCodeMap = map[string][]string{
+	{{range $key, $val := .RevCodeMap}} {{$key}}: { {{range $val}} ":{{.}}:", {{end}} },
+{{end}}
+}
 `
 
-func createCodeMap() (map[string]string, error) {
+func createCodeMap() (map[string]string, map[string][]string, error) {
 	log.Printf("creating gemoji code map")
-	gemojiCodeMap, err := createGemojiCodeMap()
+	emojiCodeMap, err := createGemojiCodeMap()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	log.Printf("creating emojo code map")
 	emojoCodeMap, err := createEmojoCodeMap()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	for k, v := range emojoCodeMap {
-		gemojiCodeMap[k] = v
+		emojiCodeMap[k] = v
 	}
 
 	log.Printf("creating unicode code map")
 	unicodeorgCodeMap, err := createUnicodeorgMap()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	for k, v := range unicodeorgCodeMap {
-		gemojiCodeMap[k] = v
+		emojiCodeMap[k] = v
 	}
 
 	log.Printf("creating emoji code map")
 	emojiDataCodeMap, err := createEmojiDataCodeMap()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	for k, v := range emojiDataCodeMap {
-		gemojiCodeMap[k] = v
+		emojiCodeMap[k] = v
 	}
 
-	return gemojiCodeMap, nil
+	log.Printf("creating reverse emoji code map")
+	emojiRevCodeMap := make(map[string][]string)
+	for shortName, unicode := range emojiCodeMap {
+		emojiRevCodeMap[unicode] = append(emojiRevCodeMap[unicode], shortName)
+	}
+
+	// ensure deterministic ordering for aliases
+	for _, value := range emojiRevCodeMap {
+		sort.Slice(value, func(i, j int) bool {
+			if len(value[i]) == len(value[j]) {
+				return value[i] < value[j]
+			}
+			return len(value[i]) < len(value[j])
+		})
+	}
+
+	return emojiCodeMap, emojiRevCodeMap, nil
 }
 
-func createCodeMapSource(pkgName string, emojiCodeMap map[string]string) ([]byte, error) {
+func createCodeMapSource(pkgName string, emojiCodeMap map[string]string, emojiRevCodeMap map[string][]string) ([]byte, error) {
 	// Template GenerateSource
 
 	var buf bytes.Buffer
 	t := template.Must(template.New("template").Parse(templateMapCode))
-	if err := t.Execute(&buf, TemplateData{PkgName: pkgName, CodeMap: emojiCodeMap}); err != nil {
+	if err := t.Execute(&buf, TemplateData{PkgName: pkgName, CodeMap: emojiCodeMap, RevCodeMap: emojiRevCodeMap}); err != nil {
 		return nil, err
 	}
 
@@ -99,12 +122,12 @@ func createCodeMapSource(pkgName string, emojiCodeMap map[string]string) ([]byte
 }
 
 func main() {
-	codeMap, err := createCodeMap()
+	emojiCodeMap, emojiRevCodeMap, err := createCodeMap()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	codeMapSource, err := createCodeMapSource(pkgName, codeMap)
+	codeMapSource, err := createCodeMapSource(pkgName, emojiCodeMap, emojiRevCodeMap)
 	if err != nil {
 		log.Fatalln(err)
 	}
