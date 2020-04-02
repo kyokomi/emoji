@@ -1,14 +1,21 @@
-name: go
+name: emoji
 on:
   push:
+    - '**.go'
+    - '.github/**'
+    - '!cmd/**'
 
 jobs:
 
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      GOPATH: /home/runner/work/kyokomi/emoji/go
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: 'go/src/github.com/kyokomi/emoji'
       - uses: actions/setup-go@v2-beta
         with:
           go-version: 1.14
