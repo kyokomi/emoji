@@ -32,7 +32,12 @@ func init() {
 	}
 	// ensure deterministic ordering for aliases
 	for _, value := range emojiRevCodeMap {
-		sort.Strings(value)
+		sort.Slice(value, func(i, j int) bool {
+			if len(value[i]) == len(value[j]) {
+				return value[i] < value[j]
+			}
+			return len(value[i]) < len(value[j])
+		})
 	}
 }
 
