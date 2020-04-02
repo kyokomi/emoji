@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"regexp"
+	"sort"
 	"unicode"
 )
 
@@ -20,6 +21,48 @@ const (
 // CodeMap gets the underlying map of emoji.
 func CodeMap() map[string]string {
 	return emojiCodeMap
+}
+
+// emojiRevCodeMap maps unicode characters to lists of short codes.
+var emojiRevCodeMap = make(map[string][]string, len(emojiCodeMap))
+
+func init() {
+	for shortCode, unicode := range emojiCodeMap {
+		emojiRevCodeMap[unicode] = append(emojiRevCodeMap[unicode], shortCode)
+	}
+	// ensure deterministic ordering for aliases
+	for _, value := range emojiRevCodeMap {
+		sort.Slice(value, func(i, j int) bool {
+			if len(value[i]) == len(value[j]) {
+				return value[i] < value[j]
+			}
+			return len(value[i]) < len(value[j])
+		})
+	}
+}
+
+// RevCodeMap gets the underlying map of emoji.
+func RevCodeMap() map[string][]string {
+	return emojiRevCodeMap
+}
+
+func AliasList(shortCode string) []string {
+	return emojiRevCodeMap[emojiCodeMap[shortCode]]
+}
+
+// HasAlias flags if the given `shortCode` has multiple aliases with other
+// codes.
+func HasAlias(shortCode string) bool {
+	return len(AliasList(shortCode)) > 1
+}
+
+// NormalizeShortCode normalizes a given `shortCode` to a deterministic alias.
+func NormalizeShortCode(shortCode string) string {
+	shortLists := AliasList(shortCode)
+	if len(shortLists) == 0 {
+		return shortCode
+	}
+	return shortLists[0]
 }
 
 // regular expression that matches :flag-[countrycode]:
@@ -99,7 +142,7 @@ func Println(a ...interface{}) (int, error) {
 
 // Printf is fmt.Printf which supports emoji
 func Printf(format string, a ...interface{}) (int, error) {
-	return fmt.Printf(compile(fmt.Sprintf(format, a...)))
+	return fmt.Print(compile(fmt.Sprintf(format, a...)))
 }
 
 // Fprint is fmt.Fprint which supports emoji
