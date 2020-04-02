@@ -1,9 +1,10 @@
 name: emoji
 on:
   push:
-    - '**.go'
-    - '.github/**'
-    - '!cmd/**'
+    paths:
+      - '**.go'
+      - '.github/**'
+      - '!cmd/**'
 
 jobs:
 
@@ -15,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: 'go/src/github.com/kyokomi/emoji'
+          path: go/src/github.com/kyokomi/emoji
       - uses: actions/setup-go@v2-beta
         with:
           go-version: 1.14
