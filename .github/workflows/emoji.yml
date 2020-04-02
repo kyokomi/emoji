@@ -23,9 +23,9 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-      - uses: reviewdog/action-golangci-lint@v1
+      - uses: reviewdog/action-golangci-lint@v1.1.2
         with:
           github_token: ${{ secrets.github_token }}
-      - run: go test ./...
+      - run: go test .
 
 
