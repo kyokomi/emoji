@@ -59,6 +59,38 @@ func TestCodeMap(t *testing.T) {
 	}
 }
 
+func TestRevCodeMap(t *testing.T) {
+	m := RevCodeMap()
+	if &emojiRevCodeMap == &m {
+		t.Error("emojiRevCodeMap != EmojiRevCodeMap")
+	}
+}
+
+func TestHasAlias(t *testing.T) {
+	hasAlias := HasAlias(":+1:")
+	if !hasAlias {
+		t.Error(":+1: doesn't have an alias")
+	}
+	hasAlias = HasAlias(":no-good:")
+	if hasAlias {
+		t.Error(":no-good: has an alias")
+	}
+}
+
+func TestNoramlizeShortCode(t *testing.T) {
+	test := ":thumbs_up:"
+	expected := ":+1:"
+	normalized := NormalizeShortCode(test)
+	if normalized != expected {
+		t.Errorf("Normalized %q != %q", test, expected)
+	}
+	test = ":no-good:"
+	normalized = NormalizeShortCode(test)
+	if normalized != test {
+		t.Errorf("Normalized %q != %q", test, normalized)
+	}
+}
+
 func TestPrint(t *testing.T) {
 	_, err := Print(beerKey, beerText)
 	if err != nil {
@@ -154,7 +186,7 @@ func BenchmarkFprint(b *testing.B) {
 		defer putBuffer(buff)
 		Fprint(buff, string(in))
 
-		bc := make([]byte, buff.Len(), buff.Len())
+		bc := make([]byte, buff.Len())
 		copy(bc, buff.Bytes())
 		return bc
 	}
