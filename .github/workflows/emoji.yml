@@ -12,7 +12,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      GOPATH: /home/runner/work/kyokomi/emoji/go
+      GOPATH: /home/runner/work/emoji/emoji/go
     steps:
       - uses: actions/checkout@v2
         with:
