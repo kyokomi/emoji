@@ -24,15 +24,3 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - run: go test .
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v1
-        with:
-          go-version: 1.14
-      - uses: reviewdog/action-golangci-lint@v1
-        with:
-          github_token: ${{ secrets.github_token }}
