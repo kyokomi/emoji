@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"strings"
 	"text/template"
 )
 
@@ -85,6 +86,9 @@ func createCodeMap() (map[string]string, map[string][]string, error) {
 	log.Printf("creating reverse emoji code map")
 	emojiRevCodeMap := make(map[string][]string)
 	for shortName, unicode := range emojiCodeMap {
+		unicode = strings.ToLower(unicode)
+		// normalize emojiCodeMap unicodee
+		emojiCodeMap[shortName] = unicode
 		emojiRevCodeMap[unicode] = append(emojiRevCodeMap[unicode], shortName)
 	}
 
