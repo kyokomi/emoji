@@ -87,7 +87,7 @@ func createCodeMap() (map[string]string, map[string][]string, error) {
 	emojiRevCodeMap := make(map[string][]string)
 	for shortName, unicode := range emojiCodeMap {
 		unicode = strings.ToLower(unicode)
-		// normalize emojiCodeMap unicodee
+		// normalize emojiCodeMap unicode
 		emojiCodeMap[shortName] = unicode
 		emojiRevCodeMap[unicode] = append(emojiRevCodeMap[unicode], shortName)
 	}
