@@ -142,7 +142,7 @@ func Println(a ...interface{}) (int, error) {
 
 // Printf is fmt.Printf which supports emoji
 func Printf(format string, a ...interface{}) (int, error) {
-	return fmt.Print(compile(fmt.Sprintf(format, a...)))
+	return fmt.Printf(compile(fmt.Sprintf(format, a...)))
 }
 
 // Fprint is fmt.Fprint which supports emoji
