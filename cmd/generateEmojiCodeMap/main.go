@@ -16,8 +16,8 @@ var fileName string
 func init() {
 	log.SetFlags(log.Llongfile)
 
-	flag.StringVar(&pkgName, "pkg", "main", "output package")
-	flag.StringVar(&fileName, "o", "emoji_codemap.go", "output file")
+	flag.StringVar(&pkgName, "pkg", "emoji", "output package")
+	flag.StringVar(&fileName, "o", "../../emoji_codemap.go", "output file")
 	flag.Parse()
 }
 
@@ -42,11 +42,13 @@ var emojiCodeMap = map[string]string{
 `
 
 func createCodeMap() (map[string]string, error) {
+	log.Printf("creating gemoji code map")
 	gemojiCodeMap, err := createGemojiCodeMap()
 	if err != nil {
 		return nil, err
 	}
 
+	log.Printf("creating emojo code map")
 	emojoCodeMap, err := createEmojoCodeMap()
 	if err != nil {
 		return nil, err
@@ -55,11 +57,21 @@ func createCodeMap() (map[string]string, error) {
 		gemojiCodeMap[k] = v
 	}
 
+	log.Printf("creating unicode code map")
 	unicodeorgCodeMap, err := createUnicodeorgMap()
 	if err != nil {
 		return nil, err
 	}
 	for k, v := range unicodeorgCodeMap {
+		gemojiCodeMap[k] = v
+	}
+
+	log.Printf("creating emoji code map")
+	emojiDataCodeMap, err := createEmojiDataCodeMap()
+	if err != nil {
+		return nil, err
+	}
+	for k, v := range emojiDataCodeMap {
 		gemojiCodeMap[k] = v
 	}
 
@@ -79,7 +91,7 @@ func createCodeMapSource(pkgName string, emojiCodeMap map[string]string) ([]byte
 
 	bts, err := format.Source(buf.Bytes())
 	if err != nil {
-		fmt.Printf(string(buf.Bytes()))
+		fmt.Print(buf.String())
 		return nil, fmt.Errorf("gofmt: %s", err)
 	}
 
