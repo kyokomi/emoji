@@ -2,7 +2,9 @@ box: golang
 build:
   steps:
     - setup-go-workspace
-    - script: go version
+    - script:
+        name: go version
+        code: go version
     - script:
         name: install tools
         code: |
