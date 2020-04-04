@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"regexp"
-	"sort"
 	"unicode"
 )
 
@@ -21,24 +20,6 @@ const (
 // CodeMap gets the underlying map of emoji.
 func CodeMap() map[string]string {
 	return emojiCodeMap
-}
-
-// emojiRevCodeMap maps unicode characters to lists of short codes.
-var emojiRevCodeMap = make(map[string][]string, len(emojiCodeMap))
-
-func init() {
-	for shortCode, unicode := range emojiCodeMap {
-		emojiRevCodeMap[unicode] = append(emojiRevCodeMap[unicode], shortCode)
-	}
-	// ensure deterministic ordering for aliases
-	for _, value := range emojiRevCodeMap {
-		sort.Slice(value, func(i, j int) bool {
-			if len(value[i]) == len(value[j]) {
-				return value[i] < value[j]
-			}
-			return len(value[i]) < len(value[j])
-		})
-	}
 }
 
 // RevCodeMap gets the underlying map of emoji.

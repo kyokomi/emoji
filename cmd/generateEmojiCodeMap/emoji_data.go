@@ -13,8 +13,9 @@ const emojiDataJsonURL = "https://github.com/iamcal/emoji-data/raw/master/emoji.
 
 // EmojiData json parse struct
 type EmojiData struct {
-	Unified   string `json:"unified"`
-	ShortName string `json:"short_name"`
+	Unified     string `json:"unified"`
+	ShortName   string `json:"short_name"`
+	ObsoletedBy string `json:"obsoleted_by"`
 }
 
 // UnifiedToChar renders a character from its hexadecimal codepoint
@@ -53,11 +54,16 @@ func createEmojiDataCodeMap() (map[string]string, error) {
 		if len(emoji.ShortName) == 0 || len(emoji.Unified) == 0 {
 			continue
 		}
-		code, err := UnifiedToChar(emoji.Unified)
+		unified := emoji.Unified
+		if len(emoji.ObsoletedBy) > 0 {
+			unified = emoji.ObsoletedBy
+		}
+		unicode, err := UnifiedToChar(unified)
 		if err != nil {
 			return nil, err
 		}
-		emojiCodeMap[emoji.ShortName] = fmt.Sprintf("%+q", strings.ToLower(code))
+		unicode = fmt.Sprintf("%+q", strings.ToLower(unicode))
+		emojiCodeMap[emoji.ShortName] = unicode
 	}
 
 	return emojiCodeMap, nil
