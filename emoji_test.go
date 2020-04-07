@@ -13,6 +13,7 @@ const (
 	beerKey  = ":beer:"
 	beerText = " ビール!!!"
 	flag     = ":flag-us:"
+	plusOne  = ":+1:"
 )
 
 var testFText = "test " + emojize(beerKey) + beerText
@@ -21,6 +22,14 @@ var testText = emojize(beerKey) + beerText
 func TestFlag(t *testing.T) {
 	f := emojize(flag)
 	expected := "\U0001f1fA\U0001f1f8"
+	if f != expected {
+		t.Error("emojize ", f, "!=", expected)
+	}
+}
+
+func TestPlusOne(t *testing.T) {
+	f := emojize(plusOne)
+	expected := "\U0001f44d "
 	if f != expected {
 		t.Error("emojize ", f, "!=", expected)
 	}
