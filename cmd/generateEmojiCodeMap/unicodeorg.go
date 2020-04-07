@@ -66,26 +66,26 @@ func generateUnicodeorgCodeMap(body io.ReadCloser) (map[string]string, error) {
 			return
 		}
 		codes := strings.Fields(cols[1])
+		var sb strings.Builder
 		for _, code := range codes {
-			if len(code) == 6 {
-				unicodeEmoji.Code += strings.Replace(code, "+", "0000", 1)
-			} else {
-				unicodeEmoji.Code += strings.Replace(code, "+", "000", 1)
+			code = strings.ReplaceAll(code, "U+", "")
+			s, err := strconv.ParseInt(code, 16, 32)
+			if err != nil {
+				log.Println("ERROR: code", err)
+				return
 			}
+			sb.WriteRune(rune(s))
 		}
-		unicodeEmoji.Code = strings.Replace(unicodeEmoji.Code, "U", "\\U", -1)
-
+		unicodeEmoji.Code = sb.String()
 		shortName := strings.NewReplacer(shortNameReplaces...).Replace(cols[3])
 		unicodeEmoji.ShortName = strings.Replace(strings.TrimSpace(shortName), " ", "_", -1)
-
 		unicodeEmoji.OtherKeywords = strings.Fields(cols[4])
-
 		emojis = append(emojis, &unicodeEmoji)
 	})
 
 	emojiCodeMap := make(map[string]string)
 	for _, emoji := range emojis {
-		emojiCodeMap[emoji.ShortName] = fmt.Sprintf("\"%s\"", strings.Replace(strings.ToLower(emoji.Code), "\\u", "\\U", -1))
+		emojiCodeMap[emoji.ShortName] = fmt.Sprintf("%+q", emoji.Code)
 	}
 
 	return emojiCodeMap, nil
