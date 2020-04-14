@@ -29,7 +29,7 @@ func TestFlag(t *testing.T) {
 
 func TestPlusOne(t *testing.T) {
 	f := emojize(plusOne)
-	expected := "\U0001f44d "
+	expected := "\U0001f44d"
 	if f != expected {
 		t.Error("emojize ", f, "!=", expected)
 	}
