@@ -32,19 +32,36 @@ type TemplateData struct {
 const templateMapCode = `
 package {{.PkgName}}
 
+import (
+	"sync"
+)
+
 // NOTE: THIS FILE WAS PRODUCED BY THE
 // EMOJICODEMAP CODE GENERATION TOOL (github.com/kyokomi/emoji/cmd/generateEmojiCodeMap)
 // DO NOT EDIT
 
-// Mapping from character to concrete escape code.
-var emojiCodeMap = map[string]string{
-	{{range $key, $val := .CodeMap}}":{{$key}}:": {{$val}},
-{{end}}
+var emojiCodeMap map[string]string
+var emojiCodeMapInitOnce = sync.Once{}
+
+func emojiCode() map[string]string {
+	emojiCodeMapInitOnce.Do(func() {
+		emojiCodeMap = map[string]string{
+			{{range $key, $val := .CodeMap}}":{{$key}}:": {{$val}},
+		{{end}}}
+	})
+	return emojiCodeMap
 }
 
-var emojiRevCodeMap = map[string][]string{
-	{{range $key, $val := .RevCodeMap}} {{$key}}: { {{range $val}} ":{{.}}:", {{end}} },
-{{end}}
+var emojiRevCodeMap map[string][]string
+var emojiRevCodeMapInitOnce = sync.Once{}
+
+func emojiRevCode() map[string][]string {
+	emojiRevCodeMapInitOnce.Do(func() {
+		emojiRevCodeMap = map[string][]string{
+			{{range $key, $val := .RevCodeMap}} {{$key}}: { {{range $val}} ":{{.}}:", {{end}} },
+		{{end}}}
+	})
+	return emojiRevCodeMap
 }
 `
 
