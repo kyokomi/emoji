@@ -10,7 +10,7 @@ import (
 	"unicode"
 )
 
-//go:generate generateEmojiCodeMap -pkg emoji
+//go:generate generateEmojiCodeMap -pkg emoji -o emoji_codemap.go
 
 // Replace Padding character for emoji.
 var (
