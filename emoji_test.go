@@ -193,7 +193,9 @@ func BenchmarkFprint(b *testing.B) {
 	f := func(in []byte) []byte {
 		buff := getBuffer()
 		defer putBuffer(buff)
-		Fprint(buff, string(in))
+		if _, err := Fprint(buff, string(in)); err != nil {
+			return nil
+		}
 
 		bc := make([]byte, buff.Len())
 		copy(bc, buff.Bytes())
