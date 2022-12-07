@@ -10,10 +10,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
       - run: go version
+      - run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1
       - name: setup tools
         run: |
           go install github.com/mattn/goveralls@latest
-          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
       - run: golangci-lint run
       - run: go test ./...
