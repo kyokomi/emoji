@@ -1,5 +1,7 @@
 name: go
 
+on: [push, pull_request]
+
 jobs:
   build_and_test:
     timeout-minutes: 15
