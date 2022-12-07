@@ -20,7 +20,6 @@ jobs:
           echo "GOPATH=${{ github.workspace }}" >> "$GITHUB_ENV"
           echo "${{ github.workspace }}/bin" >> "$GITHUB_PATH"
 
-      - run: go build ./...
       - run: golangci-lint run
       - run: go test ./...
       - name: Send coverage
