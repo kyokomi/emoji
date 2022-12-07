@@ -1,0 +1,22 @@
+name: go
+
+on: [push, pull_request]
+
+jobs:
+  build_and_test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+      - run: go version
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+      - run: go test -v -coverprofile=profile.cov ./...
+      - uses: shogo82148/actions-goveralls@v1
+        with:
+          path-to-profile: profile.cov
+
+
