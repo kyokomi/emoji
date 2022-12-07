@@ -14,18 +14,12 @@ jobs:
         run: |
           go install github.com/mattn/goveralls@latest
           go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-      - uses: actions/cache@v2
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
       - name: Set up GOPATH
         shell: bash
         run: |
           echo "GOPATH=${{ github.workspace }}" >> "$GITHUB_ENV"
           echo "${{ github.workspace }}/bin" >> "$GITHUB_PATH"
-          
+
       - run: go build ./...
       - run: golangci-lint run
       - run: go test ./...
