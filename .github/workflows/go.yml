@@ -14,10 +14,9 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-      - run: go test ./...
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@1.1.3
+      - run: go test -v -coverprofile=profile.cov ./...
+      - uses: shogo82148/actions-goveralls@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-profile: profile.cov
 
 
