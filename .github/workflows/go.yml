@@ -1,0 +1,28 @@
+name: go
+
+jobs:
+  build_and_test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+      - name: setup tools
+        run: |
+          go install github.com/mattn/goveralls@latest
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+      - uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - run: go build ./...
+      - run: golangci-lint run
+      - run: go test ./...
+      - name: Send coverage
+        env:
+          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: goveralls -v -service github
+
