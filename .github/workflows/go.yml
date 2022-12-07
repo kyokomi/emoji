@@ -10,15 +10,15 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
       - run: go version
-      - name: setup tools
-        run: |
-          go install github.com/mattn/goveralls@latest
-          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
       - name: Set up GOPATH
         shell: bash
         run: |
           echo "GOPATH=${{ github.workspace }}" >> "$GITHUB_ENV"
           echo "${{ github.workspace }}/bin" >> "$GITHUB_PATH"
+      - name: setup tools
+        run: |
+          go install github.com/mattn/goveralls@latest
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
       - run: golangci-lint run
       - run: go test ./...
