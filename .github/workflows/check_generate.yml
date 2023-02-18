@@ -1,0 +1,37 @@
+name: check generateEmojiCodeMap
+
+on:
+  schedule:
+    - cron: '0 2 * * 1' # Every Monday at 11am JST
+
+jobs:
+  do:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+      - run: |
+          export PATH=${PATH}:`go env GOPATH`/bin
+          go install github.com/kyokomi/emoji/cmd/generateEmojiCodeMap@master
+          go generate
+      - run: |
+          # Define vars
+          export DATE=$(env TZ=Asia/Tokyo date +%y%m%d%H%M)
+          export BRANCH_NAME=feature/generateEmojiCodeMap/${DATE}
+          echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+          
+          # Setup git identity
+          git config --global user.email "email@kyokomi.dev"
+          git config --global user.name "gh-workflow-release"
+          
+          ## Create branch
+          if ! git diff --exit-code --quiet
+          then
+            git add -u && git commit -m "Update generateEmojiCodeMap"
+          fi
+      - uses: peter-evans/create-pull-request@v3
+        with:
+          title: "Update generateEmojiCodeMap: ${{env.BRANCH_NAME}}"
+          base: master
+          branch: ${{env.BRANCH_NAME}}
