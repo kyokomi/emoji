@@ -19,8 +19,6 @@ var (
 	ReplacePadding = " "
 )
 
-// ErrNotFindEnd indicates that the ending ":" was not found.
-var ErrNotFindEnd = errors.New("can't find end symbol")
 
 var defaultTransfer = emojiTransfer{atEOF: true}
 
