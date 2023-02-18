@@ -40,6 +40,12 @@ func main() {
 }
 ```
 
+To intermediating io.Reader:
+
+```go
+transfer.NewReader(r, emoji.NewEmojiTransfer())
+```
+
 ## Demo
 
 ![demo](screen/image.png)

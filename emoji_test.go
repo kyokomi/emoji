@@ -3,10 +3,13 @@ package emoji
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"math"
 	"strings"
 	"sync"
 	"testing"
+
+	"golang.org/x/text/transform"
 )
 
 const (
@@ -97,6 +100,34 @@ func TestNoramlizeShortCode(t *testing.T) {
 	normalized = NormalizeShortCode(test)
 	if normalized != test {
 		t.Errorf("Normalized %q != %q", test, normalized)
+	}
+}
+
+func Test_EmojiEncoderTransform(t *testing.T) {
+	data := []struct {
+		buf      []byte
+		src      io.Reader
+		expected string
+	}{
+		{
+			// It would be nice to test with bytes larger than 4096.
+			// Buffer inside transfer is 4096.
+			// > https://cs.opensource.google/go/x/text/+/refs/tags/v0.7.0:transform/transform.go;l=130
+			src:      bytes.NewBufferString(repeatString(1000, ":sushi: ::: :sushi :sushi: :")),
+			expected: repeatString(1000, "🍣  ::: :sushi 🍣  :"),
+		},
+		{
+			src:      bytes.NewBufferString(":" + repeatString(1000, "sushi")),
+			expected: ":" + repeatString(1000, "sushi"),
+		},
+	}
+
+	for _, tt := range data {
+		dst := &bytes.Buffer{}
+		io.CopyBuffer(dst, transform.NewReader(tt.src, NewEmojiTransfer()), make([]byte, 4096))
+		if dst.String() != tt.expected {
+			t.Errorf("Transfer %v != %v", dst.String(), tt.expected)
+		}
 	}
 }
 
@@ -269,4 +300,12 @@ func getBuffer() (buf *bytes.Buffer) {
 func putBuffer(buf *bytes.Buffer) {
 	buf.Reset()
 	bufferPool.Put(buf)
+}
+
+func repeatString(n int, str string) string {
+	ret := ""
+	for i := 0; i < n; i++ {
+		ret += str
+	}
+	return ret
 }
