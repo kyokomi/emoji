@@ -16,11 +16,11 @@ const (
 	plusOne  = ":+1:"
 )
 
-var testFText = "test " + emojize(beerKey) + beerText
-var testText = emojize(beerKey) + beerText
+var testFText = "test " + Emojize(beerKey) + beerText
+var testText = Emojize(beerKey) + beerText
 
 func TestFlag(t *testing.T) {
-	f := emojize(flag)
+	f := Emojize(flag)
 	expected := "\U0001f1fA\U0001f1f8"
 	if f != expected {
 		t.Error("emojize ", f, "!=", expected)
@@ -28,7 +28,7 @@ func TestFlag(t *testing.T) {
 }
 
 func TestPlusOne(t *testing.T) {
-	f := emojize(plusOne)
+	f := Emojize(plusOne)
 	expected := "\U0001f44d "
 	if f != expected {
 		t.Error("emojize ", f, "!=", expected)
@@ -42,7 +42,7 @@ func TestMultiColons(t *testing.T) {
 		t.Error("Fprint ", err)
 	}
 
-	testCase := "A " + emojize(":smile:") + " and another: " + emojize(":smile:")
+	testCase := "A " + Emojize(":smile:") + " and another: " + Emojize(":smile:")
 	if buf.String() != testCase {
 		t.Error("Fprint ", buf.String(), "!=", testCase)
 	}
@@ -55,7 +55,7 @@ func TestContinuityColons(t *testing.T) {
 		t.Error("Fprint ", err)
 	}
 
-	testCase := ":" + emojize(":smile:")
+	testCase := ":" + Emojize(":smile:")
 	if buf.String() != testCase {
 		t.Error("Fprint ", buf.String(), "!=", testCase)
 	}
