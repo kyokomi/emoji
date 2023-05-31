@@ -11,7 +11,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-const unicodeorgURL = "http://www.unicode.org/emoji/charts/emoji-list.html"
+const unicodeorgURL = "https://www.unicode.org/emoji/charts/emoji-list.html"
 
 func createUnicodeorgMap() (map[string]string, error) {
 	res, err := http.Get(unicodeorgURL)
