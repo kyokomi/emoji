@@ -10,5 +10,5 @@ func main() {
 	emojiKeyword := flag.String("e", ":beer: Beer!!!", "emoji name")
 	flag.Parse()
 
-	emoji.Print(*emojiKeyword)
+	_, _ = emoji.Print(*emojiKeyword)
 }
