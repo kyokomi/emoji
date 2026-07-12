@@ -20,6 +20,10 @@ jobs:
       - run: go test -v -coverprofile=profile.cov ./...
       - name: build and vet cmd module
         working-directory: cmd
+        env:
+          # cmd module requires a newer Go than root go.mod; allow toolchain auto-download
+          # (setup-go v6 sets GOTOOLCHAIN=local by default)
+          GOTOOLCHAIN: auto
         run: |
           go build -o /dev/null ./generateEmojiCodeMap
           go vet ./...
