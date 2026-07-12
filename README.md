@@ -1,8 +1,8 @@
 # Emoji
 Emoji is a simple golang package.
 
-![master workflow](https://github.com/kyokomi/emoji/actions/workflows/go.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/kyokomi/emoji/badge.png?branch=master)](https://coveralls.io/r/kyokomi/emoji?branch=master)
+![go workflow](https://github.com/kyokomi/emoji/actions/workflows/go.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/kyokomi/emoji/badge.png?branch=main)](https://coveralls.io/r/kyokomi/emoji?branch=main)
 [![GoDoc](https://pkg.go.dev/badge/github.com/kyokomi/emoji.svg)](https://pkg.go.dev/github.com/kyokomi/emoji/v2)
 
 Get it:
@@ -50,4 +50,4 @@ func main() {
 
 ## License
 
-[MIT](https://github.com/kyokomi/emoji/blob/master/LICENSE)
+[MIT](https://github.com/kyokomi/emoji/blob/main/LICENSE)
