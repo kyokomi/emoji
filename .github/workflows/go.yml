@@ -18,6 +18,11 @@ jobs:
         with:
           version: latest
       - run: go test -v -coverprofile=profile.cov ./...
+      - name: build and vet cmd module
+        working-directory: cmd
+        run: |
+          go build -o /dev/null ./generateEmojiCodeMap
+          go vet ./...
       - uses: shogo82148/actions-goveralls@v1
         with:
           path-to-profile: profile.cov
