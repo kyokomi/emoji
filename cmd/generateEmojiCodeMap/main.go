@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"strings"
 	"text/template"
 )
 
@@ -106,12 +107,17 @@ func createCodeMap() (map[string]string, map[string][]string, error) {
 	}
 
 	// ensure deterministic ordering for aliases
+	// (case-insensitive, lowercase first so NormalizeShortCode keeps returning lowercase aliases)
 	for _, value := range emojiRevCodeMap {
 		sort.Slice(value, func(i, j int) bool {
-			if len(value[i]) == len(value[j]) {
-				return value[i] < value[j]
+			if len(value[i]) != len(value[j]) {
+				return len(value[i]) < len(value[j])
 			}
-			return len(value[i]) < len(value[j])
+			li, lj := strings.ToLower(value[i]), strings.ToLower(value[j])
+			if li == lj {
+				return value[i] > value[j]
+			}
+			return li < lj
 		})
 	}
 
